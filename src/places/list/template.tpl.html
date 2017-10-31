@@ -1,0 +1,15 @@
+<i class="fa fa-pulse fa-spinner" ng-show="$ctrl.loading"></i>
+<p class="text-danger">{{ $ctrl.error }}</p>
+
+<table class="places-list-table table table-striped">
+  <thead class="thead-inverse">
+  <tr>
+    <th ng-repeat="(key,value) in $ctrl.data.items[0]">
+      {{key}}
+    </th>
+  </tr>
+  </thead>
+  <tr ng-repeat="rows in $ctrl.data.items">
+    <td ng-repeat="cell in rows">{{ ::cell }}</td>
+  </tr>
+</table>

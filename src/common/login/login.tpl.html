@@ -1,0 +1,73 @@
+<div class="container">
+  <form class="form-signin"
+        name="$ctrl.loginForm"
+        ng-submit="$ctrl.onSubmit()"
+        novalidate
+        autocomplete="off"
+        ng-disabled="$ctrl.isLoading">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+
+</div> <!-- /container -->
+
+        <form name="$ctrl.loginForm"
+              ng-submit="$ctrl.onSubmit()"
+              novalidate
+              autocomplete="off"
+              ng-disabled="$ctrl.isLoading">
+          <md-input-container class="md-block">
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   ng-model="$ctrl.username"
+                   placeholder="Username"
+                   required=""
+                   ng-disabled="$ctrl.isLoading"
+                   ng-focus="$ctrl.formError = ''"
+                   ng-change="$ctrl.formError = ''"
+                   autofocus />
+            <div ng-messages="$ctrl.username.$error"
+                 role="alert"
+                 ng-show="$ctrl.loginForm.username.$error.required"
+                 multiple="false">
+              <div ng-message="required" class="my-message">Please enter your username.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   ng-model="$ctrl.password"
+                   placeholder="password"
+                   ng-disabled="$ctrl.isLoading"
+                   ng-focus="$ctrl.formError = ''"
+                   ng-change="$ctrl.formError = ''"
+                   required=""/>
+            <div ng-messages="$ctrl.password.$error"
+                 role="alert"
+                 ng-show="$ctrl.loginForm.password.$error.required">
+              <div ng-message="required" class="my-message">Please enter your password.</div>
+            </div>
+            <div ng-show="$ctrl.formError" ng-bind="$ctrl.formError" class="error-message"></div>
+          </md-input-container>
+          <div>
+            <input type="submit" ng-disabled="!$ctrl.loginForm.$valid || $ctrl.isLoading" class="md-raised md-primary" style="display: none" value="&nbsp Login &nbsp"/>
+            <md-button ng-click="$ctrl.onSubmit()"
+                       ng-disabled="!$ctrl.loginForm.$valid || $ctrl.isLoading"
+                       class="md-raised md-primary">&nbsp Login &nbsp</md-button>
+          </div>
+        </form>
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div>

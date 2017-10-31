@@ -1,0 +1,207 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "WEB UI infrastructure"
+
+Parameters:
+  Stage:
+    Type: "String"
+    Description: |
+      Name of the stage to which this stack belongs. Examples:
+      prod
+      dev
+      staging
+      joeuser
+    #TODO: add validation. ( lowercase alphabets only )
+  DomainName:
+    Type: "String"
+    Description: |
+      Domain name where this application is published.
+      For example, 'example.com'.
+      Non-production stages will prepend a subdomain (dev.example.com, etc.)
+    #TODO: add validation. ( domain name without protocol )
+  ApplicationName:
+    Type: "String"
+    Description: "Name of the application"
+    #TODO: add validation. ( lowercase alphabets only )
+  APIPrefix:
+    Type: "String"
+    Description: |
+      Prefix that we use for the api.
+      For example, '/api/myawesomeappprefix/v1/'.
+    #TODO: add validation. ( lowercase alphabets only )
+  CertificateArnProd:
+    Type: "String"
+    Description: |
+      ACM SSL Certificate ARN for the production domain.
+      Certificate needs to be issued in us-east-1.
+  CertificateArnDev:
+    Type: "String"
+    Description: |
+      ACM SSL Certificate ARN for the 'dev' subdomain
+      Certificate needs to be issued in us-east-1.
+  CertificateArnDevWildcard:
+    Type: "String"
+    Description: |
+      ACM SSL Certificate ARN for the wildcard 'dev' subdomain (*.dev.example.com)
+      Certificate needs to be issued in us-east-1.
+
+Conditions:
+  IsProduction: !Equals [ !Ref "Stage", "prod" ]
+  IsCustomStage:
+    Fn::Not:
+      - Fn::Or:
+        - !Equals [ !Ref "Stage", "prod" ]
+        - !Equals [ !Ref "Stage", "dev" ]
+  IsNotCustomStage:
+    Fn::Or:
+      - !Equals [ !Ref "Stage", "prod" ]
+      - !Equals [ !Ref "Stage", "dev" ]
+
+Resources:
+  # S3 Bucket from which the static UI content is actually stored/served.
+  HostingBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: "PublicRead"
+      BucketName: !Sub "${Stage}-${ApplicationName}-ui"
+      WebsiteConfiguration:
+        IndexDocument: "index.html"
+        ErrorDocument: "error.html"
+        RoutingRules:
+        -
+          RoutingRuleCondition:
+            HttpErrorCodeReturnedEquals: "404"
+          RedirectRule:
+            HostName:
+              Fn::If:
+                - "IsProduction"
+                - !Sub "${DomainName}"                # example.com               -> production environment
+                - Fn::If:
+                  - "IsCustomStage"
+                  - !Sub "${Stage}.dev.${DomainName}" # joeuser.dev.example.com   -> individual developer dev environment.
+                  - !Sub "dev.${DomainName}"          # dev.example.com           -> common developer environment
+            Protocol: "https"
+            ReplaceKeyPrefixWith: "#!"
+  HostingBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: "HostingBucket"
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource: !Sub "arn:aws:s3:::${HostingBucket}/*"
+            Principal: "*"
+  CloudFrontDistribution:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - Fn::If:
+            - "IsProduction"
+            # If production, just use the base domain name.
+            - !Ref "DomainName"
+            # If not production, prepend the stage name as a subdomain.
+            # We also support joeuser.dev.example.com subdomains for
+            # individual developer dev environments.
+            - Fn::If:
+              - "IsCustomStage"
+              - !Sub "${Stage}.dev.${DomainName}"
+              - !Sub "dev.${DomainName}"
+        Enabled: true
+        Origins:
+          - Id: !Sub "${ApplicationName}_APIOrigin"
+            DomainName:
+              Fn::If:
+                - "IsProduction"
+                - !Sub "api.${DomainName}"                # api.example.com               -> production environment
+                - Fn::If:
+                  - "IsCustomStage"
+                  - !Sub "api-${Stage}.dev.${DomainName}" # api-joeuser.dev.example.com   -> individual developer dev environments.
+                  - !Sub "api.dev.${DomainName}"          # api.dev.example.com           -> common developer environment
+            CustomOriginConfig:
+              OriginProtocolPolicy: "match-viewer"
+              OriginSSLProtocols:
+                - "TLSv1"
+                - "TLSv1.1"
+                - "TLSv1.2"
+          - Id: !Sub "${ApplicationName}_UIOrigin"
+            # the format of the static website hosting configured url could be different per region, so we rather reference it
+            DomainName: !Select [ 1, !Split [ 'http://', !GetAtt [ "HostingBucket", "WebsiteURL" ] ] ]
+            CustomOriginConfig:
+              OriginProtocolPolicy: "http-only"
+              OriginSSLProtocols:
+                - "TLSv1"
+                - "TLSv1.1"
+                - "TLSv1.2"
+        CacheBehaviors:
+          - TargetOriginId: !Sub "${ApplicationName}_APIOrigin"
+            PathPattern: !Sub "/api/${APIPrefix}*"
+            AllowedMethods: [ "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT" ]
+            DefaultTTL: 0
+            MaxTTL: 0
+            MinTTL: 0
+            ViewerProtocolPolicy: "redirect-to-https"
+            ForwardedValues:
+              Cookies:
+                Forward: "all"
+              Headers:
+                - "authorization"
+                - "x-api-key"
+              QueryString: true
+          - TargetOriginId: !Sub "${ApplicationName}_UIOrigin"
+            # index.html contains references to files, for example app-2389nhf8932f.js
+            # we don't want to cache index.html because we wan't index.html to point always to the latest assets files.
+            # the updated hashes in the assets file names will take care of long term caching strategy.
+            PathPattern: "index.html"
+            AllowedMethods: [ "GET", "HEAD", "OPTIONS" ]
+            DefaultTTL: 0
+            MaxTTL: 0
+            MinTTL: 0
+            ViewerProtocolPolicy: "redirect-to-https"
+            ForwardedValues:
+              Cookies:
+                Forward: "all"
+              Headers:
+                - "authorization"
+                - "x-api-key"
+              QueryString: true
+        DefaultCacheBehavior:
+          TargetOriginId: !Sub "${ApplicationName}_UIOrigin"
+          # by default we'd like to cache every UI object, except index.html
+          AllowedMethods: [ "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT" ]
+          DefaultTTL: 31536000
+          MaxTTL: 31536000
+          MinTTL: 31536000
+          ViewerProtocolPolicy: "redirect-to-https"
+          ForwardedValues:
+            Cookies:
+              Forward: "all"
+            QueryString: true
+        ViewerCertificate:
+          AcmCertificateArn: !If [ "IsProduction", !Ref "CertificateArnProd", !If [ "IsCustomStage", !Ref "CertificateArnDevWildcard", !Ref "CertificateArnDev" ] ]
+          SslSupportMethod: "sni-only"
+        DefaultRootObject: "index.html"
+        HttpVersion: "http2"
+Outputs:
+  HostName:
+    Description: "The domain where this stack is available at."
+    Value:
+      Fn::If:
+        - "IsProduction"
+        - !Sub "${DomainName}"                # example.com               -> production environment
+        - Fn::If:
+          - "IsCustomStage"
+          - !Sub "${Stage}.dev.${DomainName}" # joeuser.dev.example.com   -> individual developer dev environment.
+          - !Sub "dev.${DomainName}"          # dev.example.com           -> common developer environment
+    Export:
+          Name: !Sub "${ApplicationName}-s3-bucket-url-${Stage}"
+  CloudFrontDomain:
+    Description: |
+      The CloudFront domain name for your
+      domain that we can use to add a CNAME to
+      later.
+    Value: !GetAtt CloudFrontDistribution.DomainName

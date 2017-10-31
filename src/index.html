@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="randomLunch" lang="en">
+  <head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>randomLunch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/app.css"/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  </head>
+
+  <body ng-controller="appCtrl as $ctrl">
+    <top-navbar></top-navbar>
+    <ng-view autoscroll="false"></ng-view>
+
+    <script src="assets/js/vendor.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+      window.randomLunch = window.juno || {};
+      window.randomLunch.version = '##GIT_COMMIT_HASH##';
+      window.randomLunch.builtAt = '##BUILT_AT##';
+    </script>
+  </body>
+</html>

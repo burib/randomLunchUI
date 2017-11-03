@@ -42,13 +42,13 @@ test:
     - tree dist/ -ah
 
 deployment:
-  # MASTER MERGE DEPLOYS TO dev.example.com
+  # MASTER MERGE DEPLOYS TO example.com
   master-deploy:
     branch: master
     commands:
-      - yolo deploy-infra --stage dev
-      - yolo upload-s3 --stage dev --service ui
-      - yolo deploy-s3 --stage dev --service ui --version ${CIRCLE_SHA1}
+      - yolo deploy-infra --stage prod
+      - yolo upload-s3 --stage prod --service ui
+      - yolo deploy-s3 --stage prod --service ui --version ${CIRCLE_SHA1}
 
   branch-deploy:
     # PULL REQUESTS/BRANCHES DEPLOY TO username.dev.example.com

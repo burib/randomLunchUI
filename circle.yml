@@ -34,10 +34,10 @@ test:
   override:
     - yarn checkStyle
     - yarn testOnce
+    - ./scripts/e2e.sh
     - yarn run dist
     - du -h dist/
     - tree dist/ -ah
-    - ./scripts/e2e.sh
 
 deployment:
   # MASTER MERGE DEPLOYS TO dev.example.com

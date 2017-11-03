@@ -28,6 +28,8 @@ dependencies:
     - cat yarn.lock
     # add execution role to e2e script
     - chmod +x ./scripts/e2e.sh
+    # add execution role to aws setup script
+    - chmod +x ./scripts/setup-env-variables.sh
   cache_directories:
     - ~/.cache/yarn
     - ~/virtualenvs/venv-2.7.10/
@@ -46,6 +48,7 @@ deployment:
   master-deploy:
     branch: master
     commands:
+      - ./scripts/setup-env-variables.sh prod # use prod creditentials for aws
       - yolo deploy-infra --stage prod
       - yolo upload-s3 --stage prod --service ui
       - yolo deploy-s3 --stage prod --service ui --version ${CIRCLE_SHA1}
@@ -54,6 +57,7 @@ deployment:
     # PULL REQUESTS/BRANCHES DEPLOY TO username.dev.example.com
     branch: /.*/
     commands:
+      - ./scripts/setup-env-variables.sh dev # use dev creditentials for aws
       - yolo deploy-infra --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME}
       - yolo upload-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui
       - yolo deploy-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui --version ${CIRCLE_SHA1}

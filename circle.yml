@@ -48,18 +48,27 @@ deployment:
   master-deploy:
     branch: master
     commands:
-      - ./scripts/setup-env-variables.sh prod # use prod creditentials for aws
+      - ./scripts/setup-circle-build-credentials.sh
+      # DEPLOY TO DEV
+      - yolo use-profile --profile-name randomlunchdev
+      - yolo deploy-infra --stage dev
+      - yolo push --stage dev --service ui
+      - yolo deploy-s3 --stage dev --service ui --version ${CIRCLE_SHA1}
+      # DEPLOY TO PROD
+      - yolo use-profile --profile-name randomlunchprod
       - yolo deploy-infra --stage prod
-      - yolo upload-s3 --stage prod --service ui
+      - yolo push --stage prod --service ui
       - yolo deploy-s3 --stage prod --service ui --version ${CIRCLE_SHA1}
 
   branch-deploy:
     # PULL REQUESTS/BRANCHES DEPLOY TO username.dev.example.com
     branch: /.*/
     commands:
-      - ./scripts/setup-env-variables.sh dev # use dev creditentials for aws
+      - ./scripts/setup-circle-build-credentials.sh
+      # DEPLOY TO CUSTOM STAGE
+      - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME}
-      - yolo upload-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui
+      - yolo push --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui
       - yolo deploy-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui --version ${CIRCLE_SHA1}
 
 general:

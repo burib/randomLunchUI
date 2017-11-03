@@ -1,4 +1,6 @@
 machine:
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   node:
     version: 6.9.1
   python:
@@ -35,7 +37,7 @@ test:
     - yarn run dist
     - du -h dist/
     - tree dist/ -ah
-    - sudo ./scripts/e2e.sh
+    - ./scripts/e2e.sh
 
 deployment:
   # MASTER MERGE DEPLOYS TO dev.example.com

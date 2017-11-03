@@ -26,6 +26,8 @@ dependencies:
     # INSTALLING OTHER DEPENDENCIES
     - yarn install
     - cat yarn.lock
+    # add execution role to e2e script
+    - chmod +x ./scripts/e2e.sh
   cache_directories:
     - ~/.cache/yarn
     - ~/virtualenvs/venv-2.7.10/

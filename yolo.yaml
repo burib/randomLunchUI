@@ -51,4 +51,5 @@ services:
     bucket_name: '{{ stage.name }}-{{ ApplicationName }}-ui'
     # Local directory containing files to be published in S3:
     build:
+      working_dir: '.'
       dist_dir: 'dist'

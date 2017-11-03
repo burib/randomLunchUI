@@ -35,7 +35,7 @@ test:
     - yarn run dist
     - du -h dist/
     - tree dist/ -ah
-    - ./scripts/e2e.sh
+    - sudo ./scripts/e2e.sh
 
 deployment:
   # MASTER MERGE DEPLOYS TO dev.example.com

@@ -26,8 +26,9 @@ dependencies:
     # INSTALLING OTHER DEPENDENCIES
     - yarn install
     - cat yarn.lock
-    # add execution role to e2e script
+    # add execution role to bash scripts
     - chmod +x ./scripts/e2e.sh
+    - chmod +x ./scripts/setup-circle-build-credentials.sh
   cache_directories:
     - ~/.cache/yarn
     - ~/virtualenvs/venv-2.7.10/

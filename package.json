@@ -22,7 +22,7 @@
     "changelog": "node ./node_modules/grunt/bin/grunt changelog ./Gruntfile.js",
     "start": "env USE_MOCKS=true $npm_package_config_dashboard $npm_package_config_devserver --display-errors-details --inline --hot --config $npm_package_config_mockconfig",
     "naked": "env USE_MOCKS=true $npm_package_config_devserver --hot --config $npm_package_config_mockconfig",
-    "dist": "env USE_MOCKS=true node node_modules/grunt-cli/bin/grunt default",
+    "dist": "env USE_MOCKS=false node node_modules/grunt-cli/bin/grunt default",
     "test": "env USE_MOCKS=true $npm_package_config_karma start ./karma.conf.js --singleRun false",
     "testOnce": "env USE_MOCKS=true $npm_package_config_karma start ./karma.conf.js",
     "e2e": "node $npm_package_config_protractor ./protractor.conf.js",

@@ -214,6 +214,9 @@ Resources:
           - !Sub "${DomainName}."
           - !Sub "dev.${DomainName}."
 Outputs:
+  BucketName:
+    Description: "Name of the S3 bucket that hosts the website"
+    Value: !Ref "HostingBucket"
   HostName:
     Description: "The domain where this stack is available at."
     Value:

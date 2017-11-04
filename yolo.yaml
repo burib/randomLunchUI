@@ -50,7 +50,7 @@ services:
   ui:
     type: 's3'
     # Destination bucket where published files are to be stored:
-    bucket_name: '{{ stage.name }}-{{ ApplicationName }}-ui'
+    bucket_name: '{{ stage.outputs.BucketName }}'
     # Local directory containing files to be published in S3:
     build:
       working_dir: '.'

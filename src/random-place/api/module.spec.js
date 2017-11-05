@@ -2,6 +2,6 @@ import module from './module';
 
 describe(`${module.name} module`, function() {
   it('should load successfully', function() {
-    expect(module.name).toBe('randomLunch.places.detail');
+    expect(module.name).toBe('randomLunch.random-place.api');
   });
 });

@@ -4,7 +4,7 @@ import dataService, {
   API_RESOURCE_PATH
 } from './data-service';
 
-import placesResponseMock from './mocks/list-response-mock';
+import randomPlaceResponseMock from './mocks/random-place-response-mock';
 
 const dependencies = [
   'ngResource'
@@ -17,6 +17,7 @@ if (__USE_MOCKS__) {
 export default angular.module(`${config.NAMESPACE}`, dependencies)
   .factory(`${config.TITLE.split(' ').join('')}DataService`, dataService)
   .config(function($provide) {
+    console.log(`${config.TITLE.split(' ').join('')}DataService`);
     if (__USE_MOCKS__) {
       $provide.decorator('$httpBackend', function($delegate) {
         var proxy = function(method, url, data, callback, headers) {
@@ -53,7 +54,7 @@ export default angular.module(`${config.NAMESPACE}`, dependencies)
           headers.delay = 1500;
 
 
-          return [200, {...placesResponseMock}];
+          return [200, {...randomPlaceResponseMock}];
         });
     }
   });

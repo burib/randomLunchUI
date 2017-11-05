@@ -1,5 +1,1 @@
-export default function() {
-  this.$onInit = () => {
-
-  };
-};
+export default function() {};

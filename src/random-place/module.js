@@ -3,14 +3,18 @@ import './style.scss';
 import config from './config';
 import component from './component';
 
+import apiModule from './api/module';
+
 export default angular.module(`${config.NAMESPACE}`, [
-  'ngRoute'
+  'ngRoute',
+  apiModule.name
 ])
-  .component(`placesDetail`, component)
+  .component(`randomPlace`, component)
   .config(function($routeProvider) {
     $routeProvider
       .when(`${config.ROUTE.href}`, {
-        template: `<places-detail></places-detail>`,
+        data: {isPublic: true},
+        template: `<random-place></random-place>`,
         title: `${config.TITLE}`
       });
   });

@@ -3,14 +3,12 @@ import config from './../config';
 export const API_BASE_PATH = `${config.API.basePath}`;
 export const API_FULL_PATH = `${API_BASE_PATH}/${config.API.prefix}/${config.API.version}`;
 
-export const API_RESOURCE_PATH = `${API_FULL_PATH}/places`;
+export const API_RESOURCE_PATH = `${API_FULL_PATH}/random-place`;
 
 export default function($resource) {
   const places = $resource(
     API_RESOURCE_PATH,
-    {
-      id: '@id'
-    },
+    {},
     {
       get: {method: 'GET'},
       query: {method: 'GET', isArray: false}
@@ -21,9 +19,7 @@ export default function($resource) {
     query: function(id) {
       this.loading = true;
 
-      return places.query({
-        id: id
-      }).$promise
+      return places.query({}).$promise
         .then((res) => {
           this.data = res;
 

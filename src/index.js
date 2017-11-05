@@ -1,5 +1,6 @@
 import 'font-awesome/css/font-awesome.css';
 import 'bootstrap/scss/bootstrap.scss';
+import './style.scss';
 
 import topNavbarModule from './common/topnavbar/module';
 import authModule from './common/auth/auth-module.js';
@@ -9,7 +10,7 @@ import logoutModule from './common/logout/logout-module.js';
 import config from './config';
 
 import placesListModule from './places/list/module';
-import placesDetailModule from './places/detail/module';
+import randomPlaceModule from './random-place/module';
 
 const appDependencies = [
   'ngRoute',
@@ -19,7 +20,7 @@ const appDependencies = [
   loginModule.name,
   logoutModule.name,
   placesListModule.name,
-  placesDetailModule.name
+  randomPlaceModule.name
 ];
 
 
@@ -30,6 +31,28 @@ if (__USE_MOCKS__) {
 angular.module(`${config.NAMESPACE}`, appDependencies)
   .controller('appCtrl', function() {
     this.user = 'user';
+  })
+  .config(function($routeProvider) {
+    $routeProvider
+      .when(`/`, {
+        data: {isPublic: true},
+        template: `
+        <random-place></random-place>
+        <places-list></places-list>
+        <footer class="text-muted">
+          <div class="container">
+            <p>
+              What and Where to eat today for lunch ! AWS Demo App.<br/>
+              <strong>Authors:</strong> Balazs Buri, Szilveszter Farkas.
+            </p>
+            <p>
+              <a href="https://github.com/burib/randomLunchUI" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> randomLunchUI</a>  
+              <a href="https://github.com/burib/randomLunchAPI" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> randomLunchAPI</a>
+            </p>
+          </div>
+        </footer>`,
+        title: `${config.TITLE}`
+      });
   })
   .config(function($routeProvider, $locationProvider) {
     $routeProvider.otherwise({redirectTo: '/'});

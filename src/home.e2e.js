@@ -6,13 +6,13 @@ describe('app', function() {
 
   describe('List of Places', function() {
     it('should render table', function() {
-      const listTable = element.all(by.css('.places-list-table'));
+      const placesListContainer = element.all(by.css('.places-list'));
 
-      expect(listTable.count()).toEqual(1);
+      expect(placesListContainer.count()).toEqual(1);
     });
 
     it('should render list of places in a table', function() {
-      const tableRows = element.all(by.css('.places-list-table tbody tr'));
+      const tableRows = element.all(by.css('.places-list .place'));
 
       expect(tableRows.count()).toEqual(3);
     });

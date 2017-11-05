@@ -3,9 +3,9 @@
     <p class="lead text-muted">
       <span>You'll be eating today</span>
     <p>
-    <h1 class="jumbotron-heading"><span ng-show="!$ctrl.loading">@</span> {{$ctrl.data.title}}<i ng-show="$ctrl.loading" class="fa fa-pulse fa-spinner"></i></h1>
+    <h1 class="jumbotron-heading"><span ng-show="!$ctrl.loading">@ {{$ctrl.data.title}}</span><i ng-show="$ctrl.loading" class="fa fa-pulse fa-spinner"></i></h1>
     <p class="lead text-muted">
-      <button class="btn btn-primary" ng-click="$ctrl.getRandomPlace()">Show me where to eat today !</button>
+      <button class="btn btn-primary btn-random-lunch" ng-click="$ctrl.getRandomPlace()">Show me where to eat today !</button>
     </p>
     <p class="text-danger">{{ $ctrl.error }}</p>
   </div>

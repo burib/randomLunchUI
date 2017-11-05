@@ -54,7 +54,7 @@ export default angular.module(`${config.NAMESPACE}`, dependencies)
           headers.delay = 1500;
 
 
-          return [200, {...randomPlaceResponseMock}];
+          return [200, {...randomPlaceResponseMock()}];
         });
     }
   });

@@ -9,6 +9,6 @@ export default {
     prefix: 'rnd'
   },
   ROUTE: {
-    href: '/randomlunch'
+    href: '/random-place'
   }
 };

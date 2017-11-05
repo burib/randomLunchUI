@@ -14,7 +14,7 @@ describe('app', function() {
     it('should render list of places in a table', function() {
       const tableRows = element.all(by.css('.places-list-table tbody tr'));
 
-      expect(tableRows.count()).toEqual(2);
+      expect(tableRows.count()).toEqual(3);
     });
   });
 });

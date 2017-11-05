@@ -26,8 +26,7 @@ export default function($resource) {
         id: id
       }).$promise
         .then((res) => {
-          console.log('res');
-          this.data = res.data;
+          this.data = res;
 
           return this.data;
 

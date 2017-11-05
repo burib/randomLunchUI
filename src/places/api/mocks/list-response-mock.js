@@ -1,16 +1,18 @@
 import uuid from 'uuid';
 
 export default {
-  "data": {
-    "items": [
-      {
-        id: uuid.v4(),
-        title: 'hello Gulasch'
-      },
-      {
-        id: uuid.v4(),
-        title: 'hello Pörkölt'
-      }
-    ]
-  }
+  "items": [
+    {
+      "id": uuid.v4(),
+      "title": "The Butcher"
+    },
+    {
+      "id": uuid.v4(),
+      "title": "The Noodle House"
+    },
+    {
+      "id": uuid.v4(),
+      "title": "Brisket"
+    }
+  ]
 };

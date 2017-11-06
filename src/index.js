@@ -44,8 +44,12 @@ angular.module(`${config.NAMESPACE}`, appDependencies)
             <p>
               What and Where to eat today for lunch ! AWS Demo App.<br/>
               <strong>Authors:</strong> 
-              <a href="https://www.linkedin.com/in/balazsburi/" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i> Balázs Buri</a>, 
-              <a href="https://www.linkedin.com/in/szilveszterfarkas/" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i> Szilveszter Farkas.</a>
+              <a href="https://www.linkedin.com/in/balazsburi/" target="_blank">
+                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Balázs Buri
+              </a>, 
+              <a href="https://www.linkedin.com/in/szilveszterfarkas/" target="_blank">
+                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Szilveszter Farkas.
+              </a>
             </p>
             <p>
               <a href="https://github.com/burib/randomLunchUI" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> randomLunchUI</a>  

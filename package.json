@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "author": "Balazs Buri",
+  "author": "Balazs Buri, Szilveszter Farkas",
   "repository": "https://github.com/burib/randomlunch-ui/",
   "license": "MIT",
   "engines": {

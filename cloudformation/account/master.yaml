@@ -20,7 +20,7 @@ Conditions:
 Resources:
   DomainCertificateDev:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'IsProduction'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "dev.${DomainName}"
       DomainValidationOptions:
@@ -28,7 +28,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateDevWildCard:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'IsProduction'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "*.dev.${DomainName}"
       DomainValidationOptions:
@@ -36,7 +36,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProd:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'NotProduction'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "${DomainName}"
       DomainValidationOptions:
@@ -44,7 +44,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProdWildCard:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'NotProduction'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "*.${DomainName}"
       DomainValidationOptions:
@@ -54,13 +54,13 @@ Outputs:
   # The different arn-s that you'll have to provide for your CloudFront distribution to make it secure.
   DomainCertificateDevArn:
     Value: !Ref DomainCertificateDev
-    Condition: 'IsProduction'
+    Condition: 'NotProduction'
   DomainCertificateDevWildCardArn:
     Value: !Ref DomainCertificateDevWildCard
-    Condition: 'IsProduction'
+    Condition: 'NotProduction'
   DomainCertificateProdArn:
     Value: !Ref DomainCertificateProd
-    Condition: 'NotProduction'
+    Condition: 'IsProduction'
   DomainCertificateProdWildCardArn:
     Value: !Ref DomainCertificateProdWildCard
-    Condition: 'NotProduction'
+    Condition: 'IsProduction'

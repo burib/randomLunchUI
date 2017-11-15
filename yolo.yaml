@@ -4,8 +4,14 @@ name: 'randomlunch-ui'
 accounts:
   - name: 'randomlunchdev'
     account_number: '952080297105'
-    default_region: "us-east-1"
+    default_region: "eu-west-1"
   - name: 'randomlunch'
+    account_number: '206670076487'
+    default_region: "eu-west-1"
+  - name: 'certsDev'
+    account_number: '952080297105'
+    default_region: "us-east-1"
+  - name: 'certsProd'
     account_number: '206670076487'
     default_region: "us-east-1"
 

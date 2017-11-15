@@ -13,10 +13,6 @@ Parameters:
     Description: 'Name of the account where the template is deployed to.'
 
 Conditions:
-  requestDevCerts:
-    Fn::Equals: [ !Ref 'AccountName', 'certsDev' ]
-  requestProdCerts:
-    Fn::Equals: [ !Ref 'AccountName', 'certsProd' ]
   IsProduction:
     Fn::Equals: [ !Ref 'AccountName', 'randomlunch' ]
   NotProduction:
@@ -24,7 +20,7 @@ Conditions:
 Resources:
   DomainCertificateDev:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'requestDevCerts'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "dev.${DomainName}"
       DomainValidationOptions:
@@ -32,7 +28,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateDevWildCard:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'requestDevCerts'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "*.dev.${DomainName}"
       DomainValidationOptions:
@@ -40,7 +36,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProd:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'requestProdCerts'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "${DomainName}"
       DomainValidationOptions:
@@ -48,7 +44,7 @@ Resources:
           ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProdWildCard:
     Type: 'AWS::CertificateManager::Certificate'
-    Condition: 'requestProdCerts'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "*.${DomainName}"
       DomainValidationOptions:
@@ -58,13 +54,13 @@ Outputs:
   # The different arn-s that you'll have to provide for your CloudFront distribution to make it secure.
   DomainCertificateDevArn:
     Value: !Ref DomainCertificateDev
-    Condition: 'requestDevCerts'
+    Condition: 'IsProduction'
   DomainCertificateDevWildCardArn:
     Value: !Ref DomainCertificateDevWildCard
-    Condition: 'requestDevCerts'
+    Condition: 'IsProduction'
   DomainCertificateProdArn:
     Value: !Ref DomainCertificateProd
-    Condition: 'requestProdCerts'
+    Condition: 'NotProduction'
   DomainCertificateProdWildCardArn:
     Value: !Ref DomainCertificateProdWildCard
-    Condition: 'requestProdCerts'
+    Condition: 'NotProduction'

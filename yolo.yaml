@@ -4,10 +4,10 @@ name: 'randomlunch-ui'
 accounts:
   - name: 'randomlunchdev'
     account_number: '952080297105'
-    region: "us-east-1"
+    default_region: "us-east-1"
   - name: 'randomlunch'
     account_number: '206670076487'
-    region: "us-east-1"
+    default_region: "us-east-1"
 
 templates:
   # Baseline infrastructure templates for an entire account.

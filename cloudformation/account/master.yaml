@@ -19,6 +19,7 @@ Conditions:
 Resources:
   DomainCertificateDev:
     Type: 'AWS::CertificateManager::Certificate'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "dev.${DomainName}"
       DomainValidationOptions:
@@ -26,6 +27,7 @@ Resources:
           ValidationDomain: !Sub "${DomainName}"
   DomainCertificateDevWildCard:
     Type: 'AWS::CertificateManager::Certificate'
+    Condition: 'NotProduction'
     Properties:
       DomainName: !Sub "*.dev.${DomainName}"
       DomainValidationOptions:
@@ -33,12 +35,14 @@ Resources:
           ValidationDomain: !Sub "${DomainName}"
   DomainCertificateProd:
     Type: 'AWS::CertificateManager::Certificate'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "${DomainName}"
       DomainValidationOptions:
         - DomainName: !Sub "${DomainName}"
           ValidationDomain: !Sub "${DomainName}"
   DomainCertificateProdWildCard:
+  Condition: 'IsProduction'
     Type: 'AWS::CertificateManager::Certificate'
     Properties:
       DomainName: !Sub "*.${DomainName}"

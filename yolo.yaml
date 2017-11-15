@@ -16,6 +16,7 @@ templates:
   account:
     path: "cloudformation/account"
     params:
+      TopDomainName: 'burib.net'
       DomainName: 'randomlunch.burib.net'
       AccountName: '{{ account.name }}'
   stage:

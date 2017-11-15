@@ -1,6 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: SSL Certificate issued by ACM.
 Parameters:
+  TopDomainName:
+    Type: String
   DomainName:
     Type: String
     Description: |-
@@ -24,7 +26,7 @@ Resources:
       DomainName: !Sub "dev.${DomainName}"
       DomainValidationOptions:
         - DomainName: !Sub "dev.${DomainName}"
-          ValidationDomain: !Sub "${DomainName}"
+          ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateDevWildCard:
     Type: 'AWS::CertificateManager::Certificate'
     Condition: 'NotProduction'
@@ -32,7 +34,7 @@ Resources:
       DomainName: !Sub "*.dev.${DomainName}"
       DomainValidationOptions:
         - DomainName: !Sub "*.dev.${DomainName}"
-          ValidationDomain: !Sub "${DomainName}"
+          ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProd:
     Type: 'AWS::CertificateManager::Certificate'
     Condition: 'IsProduction'
@@ -40,7 +42,7 @@ Resources:
       DomainName: !Sub "${DomainName}"
       DomainValidationOptions:
         - DomainName: !Sub "${DomainName}"
-          ValidationDomain: !Sub "${DomainName}"
+          ValidationDomain: !Sub "${TopDomainName}"
   DomainCertificateProdWildCard:
     Type: 'AWS::CertificateManager::Certificate'
     Condition: 'IsProduction'
@@ -48,7 +50,7 @@ Resources:
       DomainName: !Sub "*.${DomainName}"
       DomainValidationOptions:
         - DomainName: !Sub "*.${DomainName}"
-          ValidationDomain: !Sub "${DomainName}"
+          ValidationDomain: !Sub "${TopDomainName}"
 Outputs:
   # The different arn-s that you'll have to provide for your CloudFront distribution to make it secure.
   DomainCertificateDevArn:

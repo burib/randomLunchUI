@@ -22,7 +22,15 @@ cat <<EOF > ${AWS_CREDENTIALS_FILE}
 aws_access_key_id=${AWS_ACCESS_KEY_ID_DEV}
 aws_secret_access_key=${AWS_SECRET_ACCESS_KEY_DEV}
 
+[certsDev]
+aws_access_key_id=${AWS_ACCESS_KEY_ID_DEV}
+aws_secret_access_key=${AWS_SECRET_ACCESS_KEY_DEV}
+
 [randomlunchprod]
+aws_access_key_id=${AWS_ACCESS_KEY_ID_PROD}
+aws_secret_access_key=${AWS_SECRET_ACCESS_KEY_PROD}
+
+[certsProd]
 aws_access_key_id=${AWS_ACCESS_KEY_ID_PROD}
 aws_secret_access_key=${AWS_SECRET_ACCESS_KEY_PROD}
 EOF

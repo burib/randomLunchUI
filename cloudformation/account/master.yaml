@@ -42,8 +42,8 @@ Resources:
         - DomainName: !Sub "${DomainName}"
           ValidationDomain: !Sub "${DomainName}"
   DomainCertificateProdWildCard:
-  Condition: 'IsProduction'
     Type: 'AWS::CertificateManager::Certificate'
+    Condition: 'IsProduction'
     Properties:
       DomainName: !Sub "*.${DomainName}"
       DomainValidationOptions:

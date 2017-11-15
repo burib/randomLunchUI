@@ -67,6 +67,8 @@ deployment:
     branch: /.*/
     commands:
       - ./scripts/setup-circle-build-credentials.sh
+      # DEPLOY ACCOUNT LEVEL INFRA
+      - yolo deploy-infra --account randomlunchdev
       # DEPLOY TO CUSTOM STAGE
       - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME}

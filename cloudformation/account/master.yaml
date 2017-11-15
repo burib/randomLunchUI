@@ -16,7 +16,8 @@ Conditions:
   IsProduction:
     Fn::Equals: [ !Ref 'AccountName', 'randomlunch' ]
   NotProduction:
-    Fn::Equals: [ !Ref 'AccountName', 'randomlunchdev' ]
+    Fn::Not:
+      - Fn::Equals: [ !Ref 'AccountName', 'randomlunch' ]
 Resources:
   DomainCertificateDev:
     Type: 'AWS::CertificateManager::Certificate'

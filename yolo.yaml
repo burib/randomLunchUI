@@ -2,25 +2,22 @@
 name: 'randomlunch-ui'
 
 accounts:
-  # awsAccountName: randomlunchdev
-  - name: 'devaccount'
+  - name: 'randomlunchdev'
     account_number: '952080297105'
-    default_region: 'eu-west-1'
-  # yolo deploy-infra --account prodaccount
-  # awsAccountName: randomlunch
-  - name: 'prodaccount'
+    region: "us-east-1"
+  - name: 'randomlunch'
     account_number: '206670076487'
-    default_region: 'eu-west-1'
+    region: "us-east-1"
 
 templates:
   # Baseline infrastructure templates for an entire account.
   # yolo deploy-infra --account devaccount
   # yolo deploy-infra --account prodaccount
   account:
-    path: "cloudformation/account/{{ account.name }}"
-    region: "us-east-1"
+    path: "cloudformation/account"
     params:
       DomainName: 'randomlunch.burib.net'
+      AccountName: '{{ account.name }}'
   stage:
     # Relative or absolute path to a directory containing CloudFormation
     # templates for the stage.
@@ -32,11 +29,8 @@ templates:
       APIPrefix: 'rnd'
       ApplicationName: 'randomlunch'
       DomainName: 'randomlunch.burib.net'
-      # randomlunch.burib.net under devaccount
       CertificateArnProd: '{{ account.outputs.DomainCertificateProdArn }}'
-      # dev.randomlunch.burib.net under devaccount
       CertificateArnDev: '{{ account.outputs.DomainCertificateDevArn }}'
-      # *.dev.randomlunch.burib.net under devaccount
       CertificateArnDevWildcard: '{{ account.outputs.DomainCertificateDevWildCardArn }}'
 stages:
   # "default" contains configs which are used for custom ad-hoc stages.
@@ -44,16 +38,16 @@ stages:
   # such as "alice" or "bob".
   # As a result,
   default:
-    account: 'devaccount'
+    account: 'randomlunchdev'
     region: 'eu-west-1'
   dev:
-    account: 'devaccount'
+    account: 'randomlunchdev'
     region: 'eu-west-1'
     # Protected prevents certain destructive actions from being run, unless
     # you are really sure you want to do. Default is false.
     protected: true
   prod:
-    account: 'prodaccount'
+    account: 'randomlunch'
     region: 'eu-west-1'
     protected: true
 services:

@@ -49,8 +49,8 @@ deployment:
     commands:
       - ./scripts/setup-circle-build-credentials.sh
       # DEPLOY ACCOUNT LEVEL INFRA
-      - yolo deploy-infra --account devaccount
-      - yolo deploy-infra --account prodaccount
+      - yolo deploy-infra --account randomlunchdev
+      - yolo deploy-infra --account randomlunchprod
       # DEPLOY TO DEV
       - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage dev

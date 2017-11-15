@@ -48,6 +48,9 @@ deployment:
     branch: master
     commands:
       - ./scripts/setup-circle-build-credentials.sh
+      # DEPLOY ACCOUNT LEVEL INFRA
+      - yolo deploy-infra --account devaccount
+      - yolo deploy-infra --account prodaccount
       # DEPLOY TO DEV
       - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage dev

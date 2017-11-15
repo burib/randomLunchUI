@@ -2,18 +2,29 @@
 name: 'randomlunch-ui'
 
 accounts:
-  - name: 'randomlunchdev'
+  # awsAccountName: randomlunchdev
+  - name: 'devaccount'
     account_number: '952080297105'
     default_region: 'eu-west-1'
-  - name: 'randomlunch'
+  # yolo deploy-infra --account prodaccount
+  # awsAccountName: randomlunch
+  - name: 'prodaccount'
     account_number: '206670076487'
     default_region: 'eu-west-1'
 
 templates:
+  # Baseline infrastructure templates for an entire account.
+  # yolo deploy-infra --account devaccount
+  # yolo deploy-infra --account prodaccount
+  account:
+    path: "cloudformation/account/{{ account.name }}"
+    region: "us-east-1"
+    params:
+      DomainName: 'randomlunch.burib.net'
   stage:
     # Relative or absolute path to a directory containing CloudFormation
     # templates for the stage.
-    path: 'cloudformation'
+    path: 'cloudformation/stage'
     # `params` is for injecting any required parameters to the top-level
     # CloudFormation stack.
     params:
@@ -21,28 +32,28 @@ templates:
       APIPrefix: 'rnd'
       ApplicationName: 'randomlunch'
       DomainName: 'randomlunch.burib.net'
-      # randomlunch.burib.net under randomlunchdev
-      CertificateArnProd: 'arn:aws:acm:us-east-1:206670076487:certificate/1da3189e-0d21-44f2-971c-277903aee8c7'
-      # dev.randomlunch.burib.net under randomlunchdev
-      CertificateArnDev: 'arn:aws:acm:us-east-1:952080297105:certificate/c3a1cb83-84e1-4ece-813d-dc4caa9a5380'
-      # *.dev.randomlunch.burib.net under randomlunchdev
-      CertificateArnDevWildcard: 'arn:aws:acm:us-east-1:952080297105:certificate/ea0a0d96-77e5-4e76-b0f7-a9a8719cdf5b'
+      # randomlunch.burib.net under devaccount
+      CertificateArnProd: '{{ account.outputs.DomainCertificateProdArn }}'
+      # dev.randomlunch.burib.net under devaccount
+      CertificateArnDev: '{{ account.outputs.DomainCertificateDevArn }}'
+      # *.dev.randomlunch.burib.net under devaccount
+      CertificateArnDevWildcard: '{{ account.outputs.DomainCertificateDevWildCardArn }}'
 stages:
   # "default" contains configs which are used for custom ad-hoc stages.
   # For example, you may want to deploy a custom test stage for yourself,
   # such as "alice" or "bob".
   # As a result,
   default:
-    account: 'randomlunchdev'
+    account: 'devaccount'
     region: 'eu-west-1'
   dev:
-    account: 'randomlunchdev'
+    account: 'devaccount'
     region: 'eu-west-1'
     # Protected prevents certain destructive actions from being run, unless
     # you are really sure you want to do. Default is false.
     protected: true
   prod:
-    account: 'randomlunch'
+    account: 'prodaccount'
     region: 'eu-west-1'
     protected: true
 services:

@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: SSL Certificates issued by ACM.
+Parameters:
+  DomainName:
+    Type: String
+    Description: |-
+      Top level domain where you want your certificate to be issued.
+       For example: example.com
+  #TODO: add validation. ( domain name without protocol )
+Resources:
+  DomainCertificateDev:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: !Sub "dev.${DomainName}"
+      DomainValidationOptions:
+        - DomainName: !Sub "dev.${DomainName}"
+          ValidationDomain: !Sub "${DomainName}"
+  DomainCertificateDevWildCard:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: !Sub "*.dev.${DomainName}"
+      DomainValidationOptions:
+        - DomainName: !Sub "*.dev.${DomainName}"
+          ValidationDomain: !Sub "${DomainName}"
+Outputs:
+  # The different arn-s that you'll have to provide for your CloudFront distribution to make it secure.
+  DomainCertificateDevArn:
+    Value: !Ref DomainCertificateDev
+  DomainCertificateDevWildCardArn:
+    Value: !Ref DomainCertificateDevWildCard

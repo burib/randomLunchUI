@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: SSL Certificate issued by ACM.
+Description: Account Level resources stack.
 Parameters:
   TopDomainName:
     Type: String

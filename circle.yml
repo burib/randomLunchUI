@@ -48,11 +48,10 @@ deployment:
     branch: master
     commands:
       - ./scripts/setup-circle-build-credentials.sh
+      - yolo use-profile --profile-name randomlunchdev
       # DEPLOY ACCOUNT LEVEL INFRA
-      - yolo deploy-infra --account randomlunchdev
       - yolo deploy-infra --account randomlunchprod
       # DEPLOY TO DEV
-      - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage dev
       - yolo push --stage dev --service ui
       - yolo deploy-s3 --stage dev --service ui --version ${CIRCLE_SHA1}
@@ -67,10 +66,10 @@ deployment:
     branch: /.*/
     commands:
       - ./scripts/setup-circle-build-credentials.sh
+      - yolo use-profile --profile-name randomlunchdev
       # DEPLOY ACCOUNT LEVEL INFRA
       - yolo deploy-infra --account randomlunchdev
       # DEPLOY TO CUSTOM STAGE
-      - yolo use-profile --profile-name randomlunchdev
       - yolo deploy-infra --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME}
       - yolo push --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui
       - yolo deploy-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui --version ${CIRCLE_SHA1}

@@ -34,7 +34,7 @@ Parameters:
     Description: |
       ACM SSL Certificate ARN for the production domain.
       Certificate needs to be issued in us-east-1.
-  CertificateArnProdWildCard:
+  CertificateArnProdWildcard:
     Type: "String"
     Description: |
       ACM SSL Certificate ARN for the wildcard production domain.
@@ -242,21 +242,21 @@ Outputs:
     Value: !Ref "CertificateArnProd"
     Export:
       Name: !Sub "${ApplicationName}-CertificateArnProd"
-  CertificateArnProdWildCard:
+  CertificateArnProdWildcard:
     Condition: 'IsProduction'
-    Value: !Ref "CertificateArnProdWildCard"
+    Value: !Ref "CertificateArnProdWildcard"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnProdWildCard"
+      Name: !Sub "${ApplicationName}-CertificateArnProdWildcard"
   CertificateArnDev:
     Condition: 'NotProduction'
     Value: !Ref "CertificateArnDev"
     Export:
       Name: !Sub "${ApplicationName}-CertificateArnDev"
-  CertificateArnDevWildCard:
+  CertificateArnDevWildcard:
     Condition: 'NotProduction'
-    Value: !Ref "CertificateArnDevWildCard"
+    Value: !Ref "CertificateArnDevWildcard"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnDevWildCard"
+      Name: !Sub "${ApplicationName}-CertificateArnDevWildcard"
   CloudFrontDomain:
     Description: |
       The CloudFront domain name for your

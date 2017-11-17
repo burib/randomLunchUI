@@ -31,7 +31,7 @@ templates:
       ApplicationName: 'randomlunch'
       DomainName: 'randomlunch.burib.net'
       CertificateArnProd: '{{ account.outputs.DomainCertificateProdArn }}'
-      CertificateArnProdWildCard: '{{ account.outputs.DomainCertificateProdWildCardArn }}'
+      CertificateArnProdWildcard: '{{ account.outputs.DomainCertificateProdWildCardArn }}'
       CertificateArnDev: '{{ account.outputs.DomainCertificateDevArn }}'
       CertificateArnDevWildcard: '{{ account.outputs.DomainCertificateDevWildCardArn }}'
 stages:

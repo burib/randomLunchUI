@@ -1,3 +1,3 @@
-https://github.com/szilveszter/yolo/archive/fix-s3-push-credentials.zip#egg=yolo
+https://github.com/rackerlabs/yolo/archive/master.zip#egg=yolo
 # Make keyring work on Linux:
 keyrings.alt

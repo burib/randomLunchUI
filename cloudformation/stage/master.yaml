@@ -34,6 +34,11 @@ Parameters:
     Description: |
       ACM SSL Certificate ARN for the production domain.
       Certificate needs to be issued in us-east-1.
+  CertificateArnProdWildcard:
+    Type: "String"
+    Description: |
+      ACM SSL Certificate ARN for the wildcard production domain.
+      Certificate needs to be issued in us-east-1.
   CertificateArnDev:
     Type: "String"
     Description: |
@@ -47,6 +52,9 @@ Parameters:
 
 Conditions:
   IsProduction: !Equals [ !Ref "Stage", "prod" ]
+  NotProduction:
+    Fn::Not:
+      - !Equals [ !Ref "Stage", "prod" ]
   IsCustomStage:
     Fn::Not:
       - Fn::Or:
@@ -229,6 +237,26 @@ Outputs:
           - !Sub "dev.${DomainName}"          # dev.example.com           -> common developer environment
     Export:
           Name: !Sub "${ApplicationName}-s3-bucket-url-${Stage}"
+  CertificateArnProd:
+    Condition: 'IsProduction'
+    Value: !Ref "CertificateArnProd"
+    Export:
+      Name: !Sub "${ApplicationName}-CertificateArnProd"
+  CertificateArnProdWildcard:
+    Condition: 'IsProduction'
+    Value: !Ref "CertificateArnProdWildcard"
+    Export:
+      Name: !Sub "${ApplicationName}-CertificateArnProdWildcard"
+  CertificateArnDev:
+    Condition: 'NotProduction'
+    Value: !Ref "CertificateArnDev"
+    Export:
+      Name: !Sub "${ApplicationName}-CertificateArnDev"
+  CertificateArnDevWildcard:
+    Condition: 'NotProduction'
+    Value: !Ref "CertificateArnDevWildcard"
+    Export:
+      Name: !Sub "${ApplicationName}-CertificateArnDevWildcard"
   CloudFrontDomain:
     Description: |
       The CloudFront domain name for your

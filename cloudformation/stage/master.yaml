@@ -236,27 +236,27 @@ Outputs:
           - !Sub "${Stage}.dev.${DomainName}" # joeuser.dev.example.com   -> individual developer dev environment.
           - !Sub "dev.${DomainName}"          # dev.example.com           -> common developer environment
     Export:
-          Name: !Sub "${ApplicationName}-s3-bucket-url-${Stage}"
+      Name: !Sub "${ApplicationName}-s3-bucket-url-${Stage}"
   CertificateArnProd:
     Condition: 'IsProduction'
     Value: !Ref "CertificateArnProd"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnProd"
+      Name: !Sub "${ApplicationName}-${Stage}-CertificateArnProd"
   CertificateArnProdWildcard:
     Condition: 'IsProduction'
     Value: !Ref "CertificateArnProdWildcard"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnProdWildcard"
+      Name: !Sub "${ApplicationName}-${Stage}-CertificateArnProdWildcard"
   CertificateArnDev:
     Condition: 'NotProduction'
     Value: !Ref "CertificateArnDev"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnDev"
+      Name: !Sub "${ApplicationName}-${Stage}-CertificateArnDev"
   CertificateArnDevWildcard:
     Condition: 'NotProduction'
     Value: !Ref "CertificateArnDevWildcard"
     Export:
-      Name: !Sub "${ApplicationName}-CertificateArnDevWildcard"
+      Name: !Sub "${ApplicationName}-${Stage}-CertificateArnDevWildcard"
   CloudFrontDomain:
     Description: |
       The CloudFront domain name for your

@@ -11,7 +11,10 @@ Parameters:
   AccountName:
     Type: 'String'
     Description: 'Name of the account where the template is deployed to.'
-
+  ApplicationName:
+    Type: "String"
+    Description: "Name of the application"
+    #TODO: add validation. ( lowercase alphabets only )
 Conditions:
   IsProduction:
     Fn::Equals: [ !Ref 'AccountName', 'randomlunch' ]

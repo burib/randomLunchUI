@@ -1,4 +1,5 @@
 import config from './config';
+import uuid from 'uuid';
 
 import dataService, {
   API_RESOURCE_PATH
@@ -25,7 +26,7 @@ export default angular.module(`${config.NAMESPACE}`, dependencies)
             var _arguments = arguments;
             var delay = headers.delay || 1000;
             setTimeout(function() {
-              console.log('%cReturning data with' + delay + ' ms delay for ' + url, 'background: #222; color: #fff');
+              console.log('%cReturning data with ' + delay + ' ms delay for ' + url, 'background: #222; color: #fff');
               callback.apply(_this, _arguments);
             }, delay);
           };
@@ -50,10 +51,27 @@ export default angular.module(`${config.NAMESPACE}`, dependencies)
         .respond(function(method, url, data, headers, params) {
           console.log('%c GET LIST :: ' + url, 'background: #222; color: #77dd77');
 
-          headers.delay = 1500;
+          headers.delay = 1000;
 
 
           return [200, {...placesResponseMock}];
+        });
+
+      $httpBackend.whenRoute('POST', API_RESOURCE_PATH)
+        .respond(function(method, url, data, headers, params) {
+          const postedData = JSON.parse(data);
+          console.log('%c ADD NEW PLACE :: ' + url, 'background: #222; color: #77dd77');
+          console.log('POSTED DATA ', postedData);
+
+          headers.delay = 1000;
+
+          return [
+            200,
+            {
+              id: uuid.v4(),
+              title: postedData.title
+            }
+          ];
         });
     }
   });

@@ -13,7 +13,10 @@ export default function($resource) {
     },
     {
       get: {method: 'GET'},
-      query: {method: 'GET', isArray: false}
+      query: {method: 'GET', isArray: false},
+      post: {
+        method: 'POST'
+      }
     }
   );
 
@@ -24,6 +27,22 @@ export default function($resource) {
       return places.query({
         id: id
       }).$promise
+        .then((res) => {
+          this.data = res;
+
+          return this.data;
+
+        }, (err) => {
+          this.error = err.statusText || `Something went wrong.`;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    post: function(payload) {
+      this.loading = true;
+
+      return places.post({}, payload).$promise
         .then((res) => {
           this.data = res;
 

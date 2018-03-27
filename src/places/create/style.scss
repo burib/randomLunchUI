@@ -1,0 +1,16 @@
+.create-new-place {
+  .form-group {
+    position: relative;
+  }
+  .form-errors-popup {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    background: #fefefe;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 3px;
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+}

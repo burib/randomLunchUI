@@ -29,6 +29,7 @@ dependencies:
     # add execution role to bash scripts
     - chmod +x ./scripts/e2e.sh
     - chmod +x ./scripts/setup-circle-build-credentials.sh
+    - chmod +x ./scripts/build.sh
   cache_directories:
     - ~/.cache/yarn
     - ~/virtualenvs/venv-2.7.10/
@@ -38,9 +39,6 @@ test:
     - yarn checkStyle
     - yarn testOnce
     - ./scripts/e2e.sh
-    - yarn run dist
-    - du -h dist/
-    - tree dist/ -ah
 
 deployment:
   # MASTER MERGE DEPLOYS TO example.com
@@ -53,12 +51,14 @@ deployment:
       - yolo deploy-infra --account randomlunchdev
       # DEPLOY TO DEV
       - yolo deploy-infra --stage dev
+      - ./scripts/build.sh randomlunchdev
       - yolo push --stage dev --service ui
       - yolo deploy-s3 --stage dev --service ui --version ${CIRCLE_SHA1}
       # DEPLOY TO PROD
       - yolo use-profile --profile-name randomlunchprod
       - yolo deploy-infra --account randomlunch
       - yolo deploy-infra --stage prod
+      - ./scripts/build.sh randomlunchprod
       - yolo push --stage prod --service ui
       - yolo deploy-s3 --stage prod --service ui --version ${CIRCLE_SHA1}
 
@@ -68,11 +68,15 @@ deployment:
     commands:
       - ./scripts/setup-circle-build-credentials.sh
       - yolo use-profile --profile-name randomlunchdev
-      # DEPLOY ACCOUNT LEVEL INFRA
+      # DEPLOY ACCOUNT LEVEL INFRASTURCTURE
       - yolo deploy-infra --account randomlunchdev
-      # DEPLOY TO CUSTOM STAGE
+      # DEPLOY STAGE LEVEL INFRASTURCTURE TO CUSTOM STAGE
       - yolo deploy-infra --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME}
+      # BUILD
+      - ./scripts/build.sh randomlunchdev
+      # UPLOAD CODE TO TEMP PLACE
       - yolo push --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui
+      # DEPLOY CODE
       - yolo deploy-s3 --stage ${CIRCLE_PR_USERNAME:-$CIRCLE_USERNAME} --service ui --version ${CIRCLE_SHA1}
 
 general:

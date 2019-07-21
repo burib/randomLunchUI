@@ -49,6 +49,9 @@ Parameters:
     Description: |
       ACM SSL Certificate ARN for the wildcard 'dev' subdomain (*.dev.example.com)
       Certificate needs to be issued in us-east-1.
+  AccountName:
+    Type: 'String'
+    Description: 'Name of the account where the template is deployed to.'
 
 Conditions:
   IsProduction: !Equals [ !Ref "Stage", "prod" ]
@@ -263,3 +266,17 @@ Outputs:
       domain that we can use to add a CNAME to
       later.
     Value: !GetAtt CloudFrontDistribution.DomainName
+  UserPoolId:
+    Value:
+      Fn::ImportValue:
+        !Sub "${ApplicationName}-${AccountName}-UserPoolId"
+  UserPoolClientId:
+    Value:
+      Fn::ImportValue:
+        !Sub "${ApplicationName}-${AccountName}-UserPoolClient"
+  IdentityPoolId:
+    Value:
+      Fn::ImportValue:
+        !Sub "${ApplicationName}-${AccountName}-IdentityPoolId"
+  AWSRegion:
+    Value: !Sub "${AWS::Region}"

@@ -19,6 +19,7 @@ templates:
       TopDomainName: 'burib.net'
       DomainName: 'randomlunch.burib.net'
       AccountName: '{{ account.name }}'
+      ApplicationName: 'randomlunch'
   stage:
     # Relative or absolute path to a directory containing CloudFormation
     # templates for the stage.
@@ -29,11 +30,13 @@ templates:
       Stage: '{{ stage.name }}'
       APIPrefix: 'rnd'
       ApplicationName: 'randomlunch'
+      AccountName: '{{ account.name }}'
       DomainName: 'randomlunch.burib.net'
       CertificateArnProd: '{{ account.outputs.DomainCertificateProdArn }}'
       CertificateArnProdWildcard: '{{ account.outputs.DomainCertificateProdWildcardArn }}'
       CertificateArnDev: '{{ account.outputs.DomainCertificateDevArn }}'
       CertificateArnDevWildcard: '{{ account.outputs.DomainCertificateDevWildcardArn }}'
+
 stages:
   # "default" contains configs which are used for custom ad-hoc stages.
   # For example, you may want to deploy a custom test stage for yourself,

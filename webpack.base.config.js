@@ -101,7 +101,11 @@ module.exports = function(vendorJsFilename, appJsFilename, appCssFilename, distF
       }),
       new DashboardPlugin(),
       new webpack.DefinePlugin({
-        __USE_MOCKS__: process.env.USE_MOCKS
+        __USE_MOCKS__: process.env.USE_MOCKS,
+        __AWS_IDENTITY_POOL_ID__: JSON.stringify(process.env.aws_identity_pool_id),
+        __AWS_USERPOOL_CLIENT_ID__: JSON.stringify(process.env.aws_userpool_client_id),
+        __AWS_USERPOOL_ID__: JSON.stringify(process.env.aws_userpool_id),
+        __AWS_REGION__: JSON.stringify(process.env.aws_region)
       }),
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     ],

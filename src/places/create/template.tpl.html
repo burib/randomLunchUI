@@ -1,0 +1,41 @@
+<button class="btn btn-link btn-sm" ng-click="$ctrl.toggleFormVisibility()">
+  <i class="fa " aria-hidden="true" ng-class="{'fa-caret-down': !$ctrl.isFormVisible, 'fa-caret-up': $ctrl.isFormVisible}"></i>
+  Add Place</button>
+<div class="container create-new-place">
+  <i class="fa fa-pulse fa-spinner" ng-show="$ctrl.loading"></i>
+  <p class="text-danger">{{ $ctrl.error }}</p>
+
+  <form ng-show="$ctrl.isFormVisible"
+        name="$ctrl.userForm"
+        ng-submit="$ctrl.submitForm()"
+        novalidate
+        autocomplete="off">
+    <div class="form-group row">
+      <label for="place" class="col-sm-4 col-form-label">Place</label>
+      <div class="col-sm-8">
+        <input type="text"
+               class="form-control"
+               id="place"
+               name="place"
+               placeholder="Name of the Place"
+               ng-class="{ 'has-error' : $ctrl.userForm.title.$invalid && $ctrl.isFormSubmitted }"
+               ng-model="title"
+               required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="offset-sm-4 col-sm-8">
+        <button
+            ng-mouseover="$ctrl.validateForm()"
+            ng-mouseleave="$ctrl.showErrors = false"
+            class="btn btn-primary btn-sm"
+            type="submit">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add New Place
+        </button>
+        <ul ng-show="$ctrl.showErrors && $ctrl.errorMessages.length" class="form-errors-popup list-unstyled">
+          <li ng-repeat="error in $ctrl.errorMessages track by $index" class="text-danger">{{error.message}}</i></li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>

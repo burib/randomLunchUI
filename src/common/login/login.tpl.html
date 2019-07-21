@@ -1,54 +1,37 @@
 <div class="container">
-  <form class="form-signin"
-        name="$ctrl.loginForm"
-        ng-submit="$ctrl.onSubmit()"
-        novalidate
-        autocomplete="off"
-        ng-disabled="$ctrl.isLoading">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  </form>
-
-</div> <!-- /container -->
-
-        <form name="$ctrl.loginForm"
-              ng-submit="$ctrl.onSubmit()"
-              novalidate
-              autocomplete="off"
-              ng-disabled="$ctrl.isLoading">
-          <md-input-container class="md-block">
+    <form name="$ctrl.loginForm"
+          class="form-signin"
+          ng-submit="$ctrl.onSubmit()"
+          novalidate
+          autocomplete="off"
+          ng-disabled="$ctrl.isLoading">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <md-input-container class="md-block">
             <label>Username</label>
             <input type="text"
                    name="username"
+                   class="form-control"
                    ng-model="$ctrl.username"
                    placeholder="Username"
                    required=""
                    ng-disabled="$ctrl.isLoading"
                    ng-focus="$ctrl.formError = ''"
                    ng-change="$ctrl.formError = ''"
-                   autofocus />
+                   autofocus/>
             <div ng-messages="$ctrl.username.$error"
                  role="alert"
                  ng-show="$ctrl.loginForm.username.$error.required"
                  multiple="false">
-              <div ng-message="required" class="my-message">Please enter your username.</div>
+                <div ng-message="required" class="text-danger">Please enter your username.</div>
             </div>
-          </md-input-container>
-          <md-input-container class="md-block">
+        </md-input-container>
+        <md-input-container class="md-block">
             <label>Password</label>
             <input type="password"
                    name="password"
+                   class="form-control"
                    ng-model="$ctrl.password"
-                   placeholder="password"
+                   placeholder="Password"
                    ng-disabled="$ctrl.isLoading"
                    ng-focus="$ctrl.formError = ''"
                    ng-change="$ctrl.formError = ''"
@@ -56,18 +39,18 @@
             <div ng-messages="$ctrl.password.$error"
                  role="alert"
                  ng-show="$ctrl.loginForm.password.$error.required">
-              <div ng-message="required" class="my-message">Please enter your password.</div>
+                <div ng-message="required" class="text-danger">Please enter your password.</div>
             </div>
-            <div ng-show="$ctrl.formError" ng-bind="$ctrl.formError" class="error-message"></div>
-          </md-input-container>
-          <div>
-            <input type="submit" ng-disabled="!$ctrl.loginForm.$valid || $ctrl.isLoading" class="md-raised md-primary" style="display: none" value="&nbsp Login &nbsp"/>
+            <div ng-show="$ctrl.formError" ng-bind="$ctrl.formError" class="text-danger"></div>
+        </md-input-container>
+        <div>
+            <input type="submit" ng-disabled="!$ctrl.loginForm.$valid || $ctrl.isLoading" class="md-raised md-primary"
+                   style="display: none" value="&nbsp Login &nbsp"/>
             <md-button ng-click="$ctrl.onSubmit()"
+                       class="btn btn-lg btn-primary btn-block"
                        ng-disabled="!$ctrl.loginForm.$valid || $ctrl.isLoading"
-                       class="md-raised md-primary">&nbsp Login &nbsp</md-button>
-          </div>
-        </form>
-      </md-card-content>
-    </md-card>
-  </md-content>
+                       class="md-raised md-primary">&nbsp Login &nbsp
+            </md-button>
+        </div>
+    </form>
 </div>

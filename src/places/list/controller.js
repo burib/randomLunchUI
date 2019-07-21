@@ -9,6 +9,10 @@ export default function($routeParams, PlacesAPIDataService) {
     'list.empty.subtitle': `Try coming back next week to check for a place.`
   };
 
+  this.onCreatePlaceSuccess = (newPlace) => {
+    this.data.items.unshift(newPlace);
+  };
+
   this.$onInit = () => {
     PlacesAPIDataService.query.call(this, $routeParams.id);
   };

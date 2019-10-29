@@ -54,6 +54,11 @@ Resources:
       DomainValidationOptions:
         - DomainName: !Sub "*.${DomainName}"
           ValidationDomain: !Sub "${TopDomainName}"
+  HostedZone:
+    Type: 'AWS::Route53::HostedZone'
+    Properties:
+      Name: !Sub "${DomainName}"
+
 Outputs:
   # The different arn-s that you'll have to provide for your CloudFront distribution to make it secure.
   DomainCertificateDevArn:
@@ -68,3 +73,5 @@ Outputs:
   DomainCertificateProdWildcardArn:
     Value: !Ref DomainCertificateProdWildcard
     Condition: 'IsProduction'
+  HostedZoneNameServers:
+    Value: !Join [ '#', !GetAtt HostedZone.NameServers ]
